@@ -28,14 +28,27 @@ tree_node* make_node(int x, tree_node* left, tree_node* right) { //incomplete
 void Insert(int x, tree_node* t) {
     if (t != NULL) {
         if (x <= t->value) {
-            if (t->lchild == NULL) {
+            if (t->lchild != NULL && t->rchild == NULL) {
+                if (x >= t->lchild->value) {
+                    t->rchild = make_node(x, NULL, NULL);
+                } else {
+                    Insert(x, t->lchild);
+                }
+            } else if (t->lchild == NULL) {
                 t->lchild = make_node(x, NULL, NULL);
             } else {
                 Insert(x, t->lchild);
             }
         } 
+
         else if (x > t->value) {
-            if (t->rchild == NULL) {
+            if (t->rchild != NULL && t->lchild == NULL) {
+                if (x < t->rchild->value) {
+                    t->lchild = make_node(x, NULL, NULL);
+                } else {
+                    Insert(x, t->rchild);
+                }
+            } else if (t->rchild == NULL) {
                 t->rchild = make_node(x, NULL, NULL);
             } else {
                 Insert(x, t->rchild);
@@ -67,13 +80,14 @@ bool Contains(int x, tree_node* t) {
         printf("Value found! '%d'\n", x);
         return true;
     }
-    Contains(x, t->lchild); 
-    Contains(x, t->rchild); 
+    Contains(x, t->lchild);
+    Contains(x, t->rchild);
     return false;
 }
 
 tree_node* Initialize(tree_node* t) {
     tree_node *no = (tree_node*) malloc(sizeof(tree_node));
+    no->value = 0;
     no->lchild = NULL;
     no->rchild = NULL;
     printf("Initialized!\n");
@@ -125,17 +139,18 @@ int main(void) {
     tree->rchild = make_node(5, NULL, NULL);
     */
 
-    /*
-    Insert(2, tree);
+    
     Insert(3, tree);
+    Insert(2, tree);
     Insert(9, tree);
     Insert(5, tree);
+    Insert(7, tree);
 
-    Contains(2, tree);
-    Contains(3, tree);
     Contains(9, tree);
+    Contains(3, tree);
+    Contains(2, tree);
     Contains(5, tree);
-    */
+    
 
     //Test A
     printf("=====Test A begin=====\n");
@@ -151,7 +166,6 @@ int main(void) {
     Remove(x, tree);
 
     printf("=====Test B end=======\n");
-    */
 
     //Test C
     printf("=====Test C begin=====\n");
@@ -162,11 +176,10 @@ int main(void) {
     if (y) {
         printf("Test C success\n");
     }
-    Remove(4, tree);
+
+    Remove(x, tree);
 
     printf("=====Test C end=======\n");
-
-    /*
 
     //Test D
     printf("=====Test D begin=====\n");
