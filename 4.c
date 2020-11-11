@@ -43,7 +43,17 @@ void Remove(int x, tree_node* t) {
 }
 
 bool Contains(int x, tree_node* t) {
-    return true;
+    if (t == NULL) {
+        return; 
+    }
+
+    if (t->value == x) {
+        printf("Value found! '%d'\n", x);
+        return true;
+    }
+    Contains(x, t->lchild); 
+    Contains(x, t->rchild); 
+    return false;
 }
 
 tree_node* Initialize(tree_node* t) {
@@ -85,35 +95,70 @@ tree_node* free_tree(tree_node* t) {
 int main(void) {
     tree_node* tree;
 
-    tree = make_node(NULL, NULL, NULL);
+    tree = make_node(0, NULL, NULL);
 
     tree_node* root;
 
-    //Test A
     root = Initialize(tree);
 
+    tree->lchild = make_node(2, NULL, NULL);
+    tree->lchild->lchild = make_node(3, NULL, NULL);
+    tree->lchild->rchild = make_node(4, NULL, NULL);
+    tree->rchild = make_node(5, NULL, NULL);
+
+    Contains(0, tree);
+    Contains(4, tree);
+    Contains(5, tree);
+
+    /*
+
+    //Test A
+    printf("=====Test A begin=====\n");
+    Initialize(root);
+
+    printf("=====Test A end=====\n");
+
     //Test B
+    printf("=====Test B begin=====\n");
     Insert(3, tree);
     Remove(3, tree);
 
+    printf("=====Test B end=====\n");
+
     //Test C
+    printf("=====Test C begin=====\n");
     Insert(4, tree);
     if (Contains(4, tree)) {
         printf("Test C success\n");
     }
     Remove(4, tree);
 
+    printf("=====Test C end=====\n");
+
     //Test D
+    printf("=====Test D begin=====\n");
     Insert(5, tree);
     Insert(6, tree);
+    Remove(5, tree);
+
+    if (Contains(6, tree)) {
+        printf("Test D success\n");
+    }
     
+    printf("=====Test D end=====\n");
 
     //Test E
+    printf("=====Test E begin=====\n");
+
+
+    printf("=====Test E end=====\n");
 
     if(Empty(root)) {
         printf("It's empty!\n");
     }
 
-    free_tree(root);
+    */
+
+    free_tree(tree);
     return 0;
 }
