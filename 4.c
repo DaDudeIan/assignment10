@@ -140,11 +140,11 @@ int main(void) {
     */
 
     
-    Insert(3, tree);
+    Insert(7, tree);
     Insert(2, tree);
     Insert(9, tree);
     Insert(5, tree);
-    Insert(7, tree);
+    Insert(3, tree);
 
     Contains(9, tree);
     Contains(3, tree);
