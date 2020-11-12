@@ -64,12 +64,12 @@ tree_node* Remove(int value, tree_node* t) {
     }
     // If the value is not less or greater then it must be equal to - meaning it found the value
     else {
-        // Case 1: No Children
+        // if No Children
         if (t->lchild == NULL && t->rchild == NULL) {
             free(t);
             t = NULL;
         }
-        // Case 2: One Child
+        // if One Child
         else if (t->lchild == NULL) {
             tree_node* tmp = t;
             t = t->rchild;
@@ -80,7 +80,7 @@ tree_node* Remove(int value, tree_node* t) {
             t = t->lchild;
             free(tmp);
         }
-        // Case 3: Two Children
+        // if Two Children
         else {
             tree_node* tmp = FindMin(t->rchild);
             t->value = tmp->value;
