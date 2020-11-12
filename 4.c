@@ -43,11 +43,51 @@ void Insert(int x, tree_node* t) {
     
 }
 
-void Remove(int value, tree_node* t) {
-    
-    ;
+tree_node* FindMin(tree_node* t) {
+    while(t->lchild != NULL) {
+        t = t->lchild;
+        return t;
+    }
+}
 
-
+tree_node* Remove(int value, tree_node* t) {  
+    // If tree is empty return root
+    if (t == NULL) {
+        return;
+    } 
+    // If the value is less then the data in the root - the value is in the left subtree.
+    else if (value < t->value) {
+        t->lchild = Remove(value, t->lchild);
+    }
+    else if (value > t->value) {
+        t->rchild = Remove(value, t->rchild);
+    }
+    // If the value is not less or greater then it must be equal to - meaning it found the value
+    else {
+        // Case 1: No Children
+        if (t->lchild == NULL && t->rchild == NULL) {
+            free(t);
+            t = NULL;
+        }
+        // Case 2: One Child
+        else if (t->lchild == NULL) {
+            tree_node* tmp = t;
+            t = t->rchild;
+            free(tmp);
+        }
+        else if (t->rchild == NULL) {
+            tree_node* tmp = t;
+            t = t->lchild;
+            free(tmp);
+        }
+        // Case 3: Two Children
+        else {
+            tree_node* tmp = FindMin(t->rchild);
+            t->value = tmp->value;
+            t->rchild = Remove(tmp->value, t->rchild);
+        }
+    }
+    return t;
 }
 
 bool Contains(int x, tree_node* t) {
@@ -60,7 +100,6 @@ bool Contains(int x, tree_node* t) {
         return true;
     } else if (t->lchild != NULL) {
         Contains(x, t->lchild);
-        
     } else if (t->rchild != NULL) {
         Contains(x, t->rchild);
     } else {
@@ -70,9 +109,7 @@ bool Contains(int x, tree_node* t) {
 
 void Initialize(tree_node* t) {
     tree_node *no = (tree_node*) malloc(sizeof(tree_node));
-    no->value = 0;
-    no->lchild = NULL;
-    no->rchild = NULL;
+    make_node(0, NULL, NULL);
     printf("Initialized!\n");
 }
 
@@ -107,90 +144,99 @@ int main(void) {
     tree = make_node(0, NULL, NULL);
 
     Initialize(tree);
-
-    /*
-    tree->lchild = make_node(2, NULL, NULL);
-    tree->lchild->lchild = make_node(3, NULL, NULL);
-    tree->lchild->rchild = make_node(4, NULL, NULL);
-    tree->rchild = make_node(5, NULL, NULL);
-    */
-
-    /*
-    Insert(7, tree);
-    Insert(2, tree);
-    Insert(9, tree);
-    Insert(5, tree);
-    Insert(3, tree);
-
-    Contains(9, tree);
-    Contains(3, tree);
-    Contains(2, tree);
-    Contains(5, tree);*/
     
+    int x = 0;
+
 
     //Test A
     printf("=====Test A begin=====\n");
-    Initialize(tree);
+    tree_node* Test_A = make_node(0, NULL, NULL);
+    Initialize(Test_A);
     Empty(tree);
 
     printf("=====Test A end=======\n");
 
-    /*
+    
     //Test B
     printf("=====Test B begin=====\n");
-    int x = 2;
-    Insert(x, tree);
-    Remove(x, tree);
+    tree_node* Test_B = make_node(0, NULL, NULL);
+    Initialize(Test_B);
+
+    x = 2;
+    Insert(x, Test_B);
+    Contains(x, Test_B);
+    Empty(Test_B);
+
+    Remove(x, Test_B);
+    Contains(x, Test_B);
+    Empty(Test_B);
 
     printf("=====Test B end=======\n");
-    */
+    
 
     //Test C
     printf("=====Test C begin=====\n");
-    int x = 3;
-    Insert(x, tree);
+    tree_node* Test_C = make_node(0, NULL, NULL);
+    Initialize(Test_C);
     
-    bool y = Contains(x, tree);
+    x = 3;
+    Insert(x, Test_C);
+    
+    bool y = Contains(x, Test_C);
     if (y) {
         printf("Test C success\n");
     }
 
     printf("=====Test C end=======\n");
 
-    /*
+    
 
     //Test D
     printf("=====Test D begin=====\n");
-    int x = 4;
-    int y = 5;
-    Insert(x, tree);
-    Insert(y, tree);
-    Remove(x, tree);
+    tree_node* Test_D = make_node(0, NULL, NULL);
+    Initialize(Test_D);
 
-    if (Contains(y, tree)) {
+    x = 4;
+    int Dy = 5;
+    Insert(x, Test_D);
+    Insert(Dy, Test_D);
+    Remove(x, Test_D);
+
+    bool z = Contains(Dy, Test_D);
+
+    if (z) {
         printf("Test D success\n");
     }
     
     printf("=====Test D end=======\n");
 
+    
     //Test E
     printf("=====Test E begin=====\n");
-    int x = 5;
-    Insert(x, tree);
-    Insert(x, tree);
-    Remove(x, tree);
-    bool y = Contains(x, tree); //true
-    Remoce(x, tree);
-    bool z = Contains(x, tree); //false
+    tree_node* Test_E = make_node(0, NULL, NULL);
+    Initialize(Test_E);
+
+    int Ex = 5;
+    Insert(Ex, Test_E);
+    Insert(Ex, Test_E);
+    Remove(Ex, Test_E);
+    bool Ey = Contains(Ex, Test_E); //true
+    if (Ey) {
+        printf("Found first time!\n");
+    }
+    Remove(Ex, Test_E);
+    bool Ez = Contains(Ex, Test_E); //false
+    if (Ez) {
+        printf("Found second time!\n");
+    }
 
     printf("=====Test E end=======\n");
 
-    if(Empty(root)) {
-        printf("It's empty!\n");
-    }
-
-    */
-
     free_tree(tree);
+    free_tree(Test_A);
+    free_tree(Test_B);
+    free_tree(Test_C);
+    free_tree(Test_D);
+    free_tree(Test_E);
     return 0;
 }
