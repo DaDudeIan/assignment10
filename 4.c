@@ -108,8 +108,7 @@ bool Contains(int x, tree_node* t) {
 }
 
 void Initialize(tree_node* t) {
-    tree_node *no = (tree_node*) malloc(sizeof(tree_node));
-    make_node(0, NULL, NULL);
+    t = make_node(0, NULL, NULL);
     printf("Initialized!\n");
 }
 
@@ -135,7 +134,6 @@ tree_node* free_tree(tree_node* t) {
         free_tree(t->rchild);
     }
     free(t);
-    printf("Freed! ");
 }
 
 int main(void) {
@@ -144,15 +142,13 @@ int main(void) {
     tree = make_node(0, NULL, NULL);
 
     Initialize(tree);
-    
-    int x = 0;
 
 
     //Test A
     printf("=====Test A begin=====\n");
     tree_node* Test_A = make_node(0, NULL, NULL);
     Initialize(Test_A);
-    Empty(tree);
+    Empty(Test_A);
 
     printf("=====Test A end=======\n");
 
@@ -162,13 +158,13 @@ int main(void) {
     tree_node* Test_B = make_node(0, NULL, NULL);
     Initialize(Test_B);
 
-    x = 2;
-    Insert(x, Test_B);
-    Contains(x, Test_B);
+    int Bx = 2;
+    Insert(Bx, Test_B);
+    Contains(Bx, Test_B);
     Empty(Test_B);
 
-    Remove(x, Test_B);
-    Contains(x, Test_B);
+    Remove(Bx, Test_B);
+    Contains(Bx, Test_B);
     Empty(Test_B);
 
     printf("=====Test B end=======\n");
@@ -179,11 +175,11 @@ int main(void) {
     tree_node* Test_C = make_node(0, NULL, NULL);
     Initialize(Test_C);
     
-    x = 3;
-    Insert(x, Test_C);
+    int Cx = 3;
+    Insert(Cx, Test_C);
     
-    bool y = Contains(x, Test_C);
-    if (y) {
+    bool Cy = Contains(Cx, Test_C);
+    if (Cy) {
         printf("Test C success\n");
     }
 
@@ -196,15 +192,15 @@ int main(void) {
     tree_node* Test_D = make_node(0, NULL, NULL);
     Initialize(Test_D);
 
-    x = 4;
+    int Dx = 4;
     int Dy = 5;
-    Insert(x, Test_D);
+    Insert(Dx, Test_D);
     Insert(Dy, Test_D);
-    Remove(x, Test_D);
+    Remove(Dx, Test_D);
 
-    bool z = Contains(Dy, Test_D);
+    bool Dz = Contains(Dy, Test_D);
 
-    if (z) {
+    if (Dz) {
         printf("Test D success\n");
     }
     
